@@ -13,6 +13,7 @@ class MyActionListener implements ActionListener {
       scrollPane.setVisible ( false );
       tagField.setVisible   ( false );
       tagCheck.setVisible   ( false );
+      
     } else if ( cmd.equals("ViewText") ) {
       //入力欄開閉
       if ( scrollPane.isVisible() ) {
@@ -26,16 +27,19 @@ class MyActionListener implements ActionListener {
         tagField.setVisible   ( true );
         tagCheck.setVisible   ( true );
       }
+      
     } else if ( cmd.equals("radio1") ) {
       //ウィジェットを常に最上位に表示
       surface.setAlwaysOnTop( true );
       delay(300);
       popup.setVisible( false );
+      
     } else if ( cmd.equals("radio2") ) {
       //ウィジェットを常に最下位に表示
       surface.setAlwaysOnTop( false );
       delay(300);
       popup.setVisible( false );
+      
     }
   }
 }

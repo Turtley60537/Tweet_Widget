@@ -138,6 +138,7 @@ void mousePressed() {
     preMouseY = MouseInfo.getPointerInfo().getLocation().y;
     preFrameX = smoothCanvas.getFrame().getLocation().x;
     preFrameY = smoothCanvas.getFrame().getLocation().y;
+    
   } else if ( mouseButton==RIGHT ) {
     popup.show(smoothCanvas.getFrame(), mouseX, mouseY );
   }
