@@ -19,10 +19,11 @@ import javax.swing.ImageIcon;
 import processing.awt.PSurfaceAWT;
 
 Twitter twitter;
-OAuthRestAPI restAPI;
+RestAPI restAPI;
 
 PSurfaceAWT awtSurface;
 PSurfaceAWT.SmoothCanvas smoothCanvas;
+Canvas canvas;
 
 JTextArea    area;
 JLayeredPane pane;
@@ -39,16 +40,7 @@ JRadioButton radioButton1, radioButton2;
 Color bgColor = new Color( 0, 0, 0, 100 );
 
 void setup() {
-  //twitterの初期設定
-  //配布時参照不可
-  String keys[] = loadStrings("../twitterOathKey.txt");
-  //キー設定　自分のキーを入力
-  final String consumerKey       = keys[0];
-  final String consumerSecret    = keys[1];
-  final String accessToken       = keys[2];
-  final String accessTokenSecret = keys[3];
-  
-  restAPI = new OAuthRestAPI(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+  restAPI = new RestAPI();
 
   //ウィンドウの初期設定
   surface.setAlwaysOnTop( true );
@@ -62,9 +54,9 @@ void setup() {
   smoothCanvas.getFrame().setBackground  ( bgColor  );
   smoothCanvas.getFrame().setOpacity     ( 0.5f     );
   smoothCanvas.getFrame().setLocation    ( 390, 350 );
-  smoothCanvas.setBounds( 0, 0, 400, 100 );
+  smoothCanvas.setBounds( 0, 0, 100, 100 );
 
-  Canvas canvas = (Canvas)       surface.getNative();
+  canvas = (Canvas)       surface.getNative();
   pane          = (JLayeredPane) canvas.getParent().getParent();
   pane.setBackground( bgColor );
 

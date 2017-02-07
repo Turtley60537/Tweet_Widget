@@ -4,30 +4,17 @@ class MyActionListener implements ActionListener {
     println(true);
     String cmd = e.getActionCommand();
     if ( cmd.equals("SendNewTweet") ) {
-      if ( scrollPane.isVisible() && area.getText()!=null ) {
-        //ツイートするところ
-        String tweetSentences = "";
-        if ( tagCheck.isSelected() && tagField.getText()!=null ) {
-          tweetSentences += tagField.getText() + "\n";
-        }
-        tweetSentences += area.getText();
-
-        try {
-          Status status = twitter.updateStatus( tweetSentences );
-          println("Successfully updated the status to [" + status.getText() + "].");
-          area.setText("");
-        }
-        catch ( TwitterException ex) {
-          println(ex.getStatusCode());
-        }
-        
-        //ツイートしたら入力欄収納
-        smoothCanvas.getFrame().setSize( 140, 140 );
-        scrollPane.setVisible ( false );
-        tagField.setVisible   ( false );
-        tagCheck.setVisible   ( false );
+      //ツイートするところ
+      if ( !scrollPane.isVisible() && area.getText()==null ) {
+        return;
       }
+      restAPI.createTweet();
+      smoothCanvas.getFrame().setSize( 140, 140 );
+      scrollPane.setVisible ( false );
+      tagField.setVisible   ( false );
+      tagCheck.setVisible   ( false );
     } else if ( cmd.equals("ViewText") ) {
+      //入力欄開閉
       if ( scrollPane.isVisible() ) {
         smoothCanvas.getFrame().setSize( 140, 140 );
         scrollPane.setVisible ( false );
