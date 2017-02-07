@@ -23,6 +23,7 @@ class RestAPI {
   }
 
   void createTweet() {
+    //ツイートするところ
     String tweetSentences = "";
     if ( tagCheck.isSelected() && tagField.getText()!=null ) {
       tweetSentences += tagField.getText() + "\n";
