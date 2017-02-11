@@ -3,43 +3,38 @@ class MyActionListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     println(true);
     String cmd = e.getActionCommand();
-    if ( cmd.equals("SendNewTweet") ) {
-      //ツイートするところ
-      if ( !scrollPane.isVisible() && area.getText()==null ) {
-        return;
-      }
-      restAPI.createTweet();
-      smoothCanvas.getFrame().setSize( 140, 140 );
-      scrollPane.setVisible ( false );
-      tagField.setVisible   ( false );
-      tagCheck.setVisible   ( false );
-      
-    } else if ( cmd.equals("ViewText") ) {
-      //入力欄開閉
-      if ( scrollPane.isVisible() ) {
-        smoothCanvas.getFrame().setSize( 140, 140 );
-        scrollPane.setVisible ( false );
-        tagField.setVisible   ( false );
-        tagCheck.setVisible   ( false );
-      } else {
-        smoothCanvas.getFrame().setSize( 400, 140 );
-        scrollPane.setVisible ( true );
-        tagField.setVisible   ( true );
-        tagCheck.setVisible   ( true );
-      }
-      
-    } else if ( cmd.equals("radio1") ) {
-      //ウィジェットを常に最上位に表示
-      surface.setAlwaysOnTop( true );
-      delay(300);
-      popup.setVisible( false );
-      
-    } else if ( cmd.equals("radio2") ) {
-      //ウィジェットを常に最下位に表示
-      surface.setAlwaysOnTop( false );
-      delay(300);
-      popup.setVisible( false );
-      
-    }
+
+    //ツイートするところ
+    if      ( cmd.equals("SendNewTweet") )  tweetUnit.tweetButtonAction();
+
+    //ツイート入力欄開閉
+    else if ( cmd.equals("TweetViewText") ) tweetUnit.viewTextButtonAction();
+
+    //ノートに書き留める
+    else if ( cmd.equals("JotDown")      ) noteUnit.jotDownButtonAction();
+
+    //ノート入力欄開閉
+    else if ( cmd.equals("NoteViewText") ) noteUnit.viewTextButtonAction();
+
+    //保存したノートを開く
+    else if ( cmd.equals("OpenNote")     ) noteUnit.openNoteButtonAction();
+
+    //ノート入力欄にマークダウンのテンプレを記入
+    else if ( cmd.equals("Template")     ) noteUnit.templateButtonAction();
+
+    //ノート入力欄の削除
+    else if ( cmd.equals("Delete")       ) noteUnit.deleteButtonAction();
+
+    //ウィジェットを常に最上位に表示
+    else if ( cmd.equals("radio1") ) popupItems.radio1Action();
+
+    //ウィジェットの表示を元に戻す
+    else if ( cmd.equals("radio2") ) popupItems.radio2Action();
+
+    //TweetUnitを表示
+    else if ( cmd.equals("TweetUnitCheck") ) popupItems.tweetUnitCheckAction();
+
+    //NoteUnitをひょうじ
+    else if ( cmd.equals("NoteUnitCheck")  ) popupItems.noteUnitCheckAction();
   }
 }

@@ -19,28 +19,43 @@ import javax.swing.ImageIcon;
 import processing.awt.PSurfaceAWT;
 
 Twitter twitter;
-RestAPI restAPI;
 
 PSurfaceAWT awtSurface;
 PSurfaceAWT.SmoothCanvas smoothCanvas;
 Canvas canvas;
 
-JTextArea    area;
-JLayeredPane pane;
-JScrollPane  scrollPane;
-
-JTextField   tagField;
-JCheckBox    tagCheck;
-JButton      viewTextButton, tweetButton;
+TweetUnit tweetUnit;
+NoteUnit noteUnit;
 
 JPopupMenu   popup;
-ButtonGroup  radioGroup;
-JRadioButton radioButton1, radioButton2;
+PopupItems   popupItems;
 
-Color bgColor = new Color( 0, 0, 0, 100 );
+JLayeredPane layeredPane;
+
+Color bgColor;
+int nowFrameSizeX, nowFrameSizeY, frameGapY;  //gapY: フレームを消したからかサイズのズレが発生するため
+int closedFrameSizeX, openFrameSizeX;
+ArrayList<Integer> setFrameYByUnitsNum = new ArrayList<Integer>();
+
+ArrayList<Integer> unitPosY = new ArrayList<Integer>();
+
+int preMouseX, preMouseY, preFrameX, preFrameY;
 
 void setup() {
-  restAPI = new RestAPI();
+  bgColor  = new Color( 0, 0, 0, 100 );
+
+  closedFrameSizeX = 140;
+  openFrameSizeX   = 400;
+  nowFrameSizeX    = closedFrameSizeX;
+
+  nowFrameSizeY    = 270;
+  frameGapY        = 22;
+
+  setFrameYByUnitsNum.add( new Integer(162) );
+  setFrameYByUnitsNum.add( new Integer(270) );
+
+  unitPosY.add( 20  );
+  unitPosY.add( 130 );
 
   //ウィンドウの初期設定
   surface.setAlwaysOnTop( true );
@@ -50,75 +65,28 @@ void setup() {
 
   smoothCanvas.getFrame().removeNotify();
   smoothCanvas.getFrame().setUndecorated ( true );
-  smoothCanvas.getFrame().setSize        ( 140, 163 );
+  //smoothCanvas.getFrame().setSize      ( 140, 163 );
+  nowFrameSizeX = closedFrameSizeX;
+  smoothCanvas.getFrame().setSize        ( nowFrameSizeX, nowFrameSizeY );
   smoothCanvas.getFrame().setBackground  ( bgColor  );
-  smoothCanvas.getFrame().setOpacity     ( 0.5f     );
+  smoothCanvas.getFrame().setOpacity     ( 0.9f     );
   smoothCanvas.getFrame().setLocation    ( 390, 350 );
-  smoothCanvas.setBounds( 0, 0, 100, 100 );
+  //smoothCanvas.setBounds( 0, 0, 100, 100 );
 
   canvas = (Canvas)       surface.getNative();
-  pane          = (JLayeredPane) canvas.getParent().getParent();
-  pane.setBackground( bgColor );
 
-  //テキストエリアの初期設定
-  area = new JTextArea("");
-  area.setLineWrap             ( true );
-  area.setWrapStyleWord        ( true );
-  scrollPane = new JScrollPane ( area );
-  scrollPane.setBounds         ( 120, 20, 260, 70 );
-  scrollPane.setVisible        ( false );
-  pane.add( scrollPane );
+  println(canvas.getParent().getClass());                                                   //JPanel
+  println(canvas.getParent().getParent().getClass());                                       //JLayeredPane
+  println(canvas.getParent().getParent().getParent().getClass());                           //JRootPane
+  println(canvas.getParent().getParent().getParent().getParent().getClass());               //JFrame
+  //println(canvas.getParent().getParent().getParent().getParent().getParent().getClass()); //NullPointerException
 
-  //タグの入力欄の初期設定
-  tagField = new JTextField("");
-  tagField.setBounds        ( 182, 90, 198, 30 );
-  tagField.setVisible       ( false );
-  pane.add( tagField );
+  layeredPane = (JLayeredPane) canvas.getParent().getParent();
+  layeredPane.setBackground( bgColor );
 
-  //タグのチェックボックス
-  tagCheck = new JCheckBox( "Tag:" );
-  tagCheck.setFont         ( new Font("Times New Roman", Font.BOLD, 14) );
-  tagCheck.setForeground   ( new Color(#00ECFF) );
-  tagCheck.setBounds       ( 121, 90, 61, 30    );
-  tagCheck.setVisible      ( false );
-  pane.add( tagCheck );
-
-  //ツイートボタンの初期設定
-  tweetButton = new JButton( "Send Tweet" );
-  tweetButton.setFont           ( new Font("Times New Roman", Font.BOLD, 16) );
-  tweetButton.setForeground     ( new Color( 255, 50, 50 ) );
-  tweetButton.setBackground     ( bgColor                  );
-  tweetButton.setBounds         ( 20, 20, 100, 50          );
-  tweetButton.addActionListener ( new MyActionListener()   );
-  tweetButton.setActionCommand  ( "SendNewTweet"           );
-  pane.add( tweetButton );
-
-  //テキスト欄の表示ボタンの初期設定
-  viewTextButton = new JButton("View Text");
-  viewTextButton.setFont           ( new Font("Times New Roman", Font.BOLD, 16) );
-  viewTextButton.setBackground     ( bgColor                );
-  viewTextButton.setBounds         ( 20, 70, 100, 50        );
-  viewTextButton.addActionListener ( new MyActionListener() );
-  viewTextButton.setActionCommand  ( "ViewText"             );
-  pane.add( viewTextButton );
-
-  //ポップアップの初期設定
-  radioGroup   = new ButtonGroup  ();
-  radioButton1 = new JRadioButton ( "Always On Top"        );
-  radioButton1.addActionListener  ( new MyActionListener() );
-  radioButton1.setActionCommand   ( "radio1"               );
-  radioButton1.setSelected        ( true );
-
-  radioButton2 = new JRadioButton ( "Default" );
-  radioButton2.addActionListener  ( new MyActionListener() );
-  radioButton2.setActionCommand   ( "radio2"               );
-
-  radioGroup.add( radioButton1 );
-  radioGroup.add( radioButton2 );
-
-  popup = new JPopupMenu();
-  popup.add( radioButton1 );
-  popup.add( radioButton2 );
+  tweetUnit = new TweetUnit();
+  noteUnit  = new NoteUnit();
+  popupItems    = new PopupItems();
 
   background(50);
   noLoop();
@@ -128,8 +96,6 @@ void draw() {
   //loop(), noLoop()を使ってできるだけdraw()を実行しないようにしている
 }
 
-int preMouseX, preMouseY, preFrameX, preFrameY;
-
 void mousePressed() {
   if ( mouseButton==LEFT ) {
     //ウィンドウの移動に関するコード
@@ -138,7 +104,6 @@ void mousePressed() {
     preMouseY = MouseInfo.getPointerInfo().getLocation().y;
     preFrameX = smoothCanvas.getFrame().getLocation().x;
     preFrameY = smoothCanvas.getFrame().getLocation().y;
-    
   } else if ( mouseButton==RIGHT ) {
     popup.show(smoothCanvas.getFrame(), mouseX, mouseY );
   }

@@ -25,15 +25,16 @@ class RestAPI {
   void createTweet() {
     //ツイートするところ
     String tweetSentences = "";
-    if ( tagCheck.isSelected() && tagField.getText()!=null ) {
-      tweetSentences += tagField.getText() + "\n";
+    //タグがチェックされ、かつタグに何か入力されていれば true
+    if ( tweetUnit.tagCheck.isSelected() && tweetUnit.tagField.getText()!=null ) {
+      tweetSentences += tweetUnit.tagField.getText() + "\n";
     }
-    tweetSentences += area.getText();
+    tweetSentences += tweetUnit.area.getText();
 
     try {
       Status status = twitter.updateStatus( tweetSentences );
       println("Successfully updated the status to [" + status.getText() + "].");
-      area.setText("");
+      tweetUnit.area.setText("");
     }
     catch ( TwitterException ex) {
       println(ex.getStatusCode());
