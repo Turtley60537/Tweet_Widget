@@ -8,7 +8,7 @@
  - ツイートしても初期化されないハッシュタグ入力欄
  - ハッシュタグ入力の On/Off を切り替えるチェックボックス
  - ウィジェットの縁を右クリックで表示される 「常に最前面に表示」の On/Off を切り替えるラジオボタン
- - ウィジェットの縁でスクロールで不透明度変更
+ - ウィジェットの縁でスクロールすることで不透明度変更
  
 ![Tweet_Widget](https://github.com/Turtley60537/Tweet_Widget/blob/images/images/Tweet_Widget_screenshot.png "Tweet_Widget")
 
