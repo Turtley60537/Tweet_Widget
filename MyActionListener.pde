@@ -1,7 +1,10 @@
 //何かアクションがあった時に実行されるクラス ex) ボタンを押す
+
 class MyActionListener implements ActionListener {
+
   public void actionPerformed(ActionEvent e) {
-    println(true);
+
+    //println(true);
     String cmd = e.getActionCommand();
 
     //ツイートするところ
@@ -34,7 +37,7 @@ class MyActionListener implements ActionListener {
     //TweetUnitを表示
     else if ( cmd.equals("TweetUnitCheck") ) popupItems.tweetUnitCheckAction();
 
-    //NoteUnitをひょうじ
+    //NoteUnitを表示
     else if ( cmd.equals("NoteUnitCheck")  ) popupItems.noteUnitCheckAction();
   }
 }

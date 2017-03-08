@@ -52,22 +52,21 @@ class PopupItems {
     popup.add ( layoutMenu );
   }
   
-  //アクション：ウィジェットを常に最上位に表示
+  //アクション:ウィジェットを常に最上位に表示
   void radio1Action() {
     surface.setAlwaysOnTop( true );
     delay(300);
     popup.setVisible( false );
   }
 
-  //アクション：ウィジェットの表示を元に戻す
+  //アクション:ウィジェットの表示を元に戻す
   void radio2Action() {
     surface.setAlwaysOnTop( false );
     delay(300);
     popup.setVisible( false );
   }
 
-
-  //アクション：TweetUnitを表示
+  //アクション:TweetUnitを表示
   void tweetUnitCheckAction() {
     //押したタイミングではisSelected()は変更後の状態を示す？
     if ( tweetUnitCheck.isSelected() ) {
@@ -102,7 +101,7 @@ class PopupItems {
   }
 
 
-  //アクション：NoteUnitを表示
+  //アクション:NoteUnitを表示
   void noteUnitCheckAction() {
     //押したタイミングではisSelected()は変更後の状態を示す？
     if ( noteUnitCheck.isSelected() ) {

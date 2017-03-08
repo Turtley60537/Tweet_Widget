@@ -78,11 +78,6 @@ class TweetUnit {
     if ( _bool ) {
       this.tweetButton.setVisible    ( true );
       this.viewTextButton.setVisible ( true );
-      /*
-      this.scrollPane.setVisible     ( true );
-       this.tagField.setVisible       ( true );
-       this.tagCheck.setVisible       ( true );
-       */
     } else {
       this.tweetButton.setVisible    ( false );
       this.viewTextButton.setVisible ( false );
@@ -94,14 +89,14 @@ class TweetUnit {
 
   //noteUnitを閉じている時などに、tweetUnit自体の位置を変更
   void resetUnitLocation() {
-    tweetButton.setLocation    ( unitX    , unitY    );
-    viewTextButton.setLocation ( unitX    , unitY+50 );
+    tweetButton.setLocation    ( unitX, unitY    );
+    viewTextButton.setLocation ( unitX, unitY+50 );
     scrollPane.setLocation     ( unitX+100, unitY    );
     tagField.setLocation       ( unitX+162, unitY+70 );
     tagCheck.setLocation       ( unitX+101, unitY+70 );
   }
 
-  //アクション：ツイートするところ
+  //アクション:ツイートするところ
   void tweetButtonAction() {
     //area.getText().equals("")が働かない
     if ( !this.scrollPane.isVisible() && this.area.getText().equals("") ) {
@@ -115,7 +110,7 @@ class TweetUnit {
     }
   }
 
-  //アクション：ツイート入力欄開閉
+  //アクション:ツイート入力欄開閉
   void viewTextButtonAction() {
     if ( this.scrollPane.isVisible() ) {
       this.textPartsSetVisible ( false );

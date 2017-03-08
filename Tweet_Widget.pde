@@ -75,10 +75,10 @@ void setup() {
 
   canvas = (Canvas)       surface.getNative();
 
-  println(canvas.getParent().getClass());                                                   //JPanel
-  println(canvas.getParent().getParent().getClass());                                       //JLayeredPane
-  println(canvas.getParent().getParent().getParent().getClass());                           //JRootPane
-  println(canvas.getParent().getParent().getParent().getParent().getClass());               //JFrame
+  //println(canvas.getParent().getClass());                                                   //JPanel
+  //println(canvas.getParent().getParent().getClass());                                       //JLayeredPane
+  //println(canvas.getParent().getParent().getParent().getClass());                           //JRootPane
+  //println(canvas.getParent().getParent().getParent().getParent().getClass());               //JFrame
   //println(canvas.getParent().getParent().getParent().getParent().getParent().getClass()); //NullPointerException
 
   layeredPane = (JLayeredPane) canvas.getParent().getParent();

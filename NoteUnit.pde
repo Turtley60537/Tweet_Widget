@@ -108,15 +108,15 @@ class NoteUnit {
 
   //tweetUnitを閉じてるいる時などに、noteUnit自体の位置を変更
   void resetUnitLocation() {
-    jotDownButton.setLocation  ( unitX,     unitY    );
-    viewTextButton.setLocation ( unitX,     unitY+50 );
+    jotDownButton.setLocation  ( unitX, unitY    );
+    viewTextButton.setLocation ( unitX, unitY+50 );
     scrollPane.setLocation     ( unitX+100, unitY    );
-    openNoteButton.setLocation ( unitX+95,  unitY+70 ); 
+    openNoteButton.setLocation ( unitX+95, unitY+70  ); 
     templateButton.setLocation ( unitX+188, unitY+70 );
     deleteButton.setLocation   ( unitX+298, unitY+70 );
   }
 
-  //アクション：ノートに書き留める
+  //アクション:ノートに書き留める
   void jotDownButtonAction() {
     if ( !this.scrollPane.isVisible() && this.area.getText().equals("") ) {
       return;
@@ -124,9 +124,10 @@ class NoteUnit {
     String [] loadText;
 
     //ファイルがすでに存在するなら、ロードして新たに付け加えてセーブ
+
     try {
       /*
-       * ●出力例
+       * - 出力例
        * 年/月/日 時:分
        * 本文
        * \n
@@ -152,15 +153,16 @@ class NoteUnit {
       saveText.close();
     }
 
+
     this.area.setText("");
-    this.textPartsSetVisible       ( false );
+    this.textPartsSetVisible ( false );
     if ( !tweetUnit.scrollPane.isVisible() ) {
       nowFrameSizeX = closedFrameSizeX;
       smoothCanvas.getFrame().setSize( nowFrameSizeX, nowFrameSizeY-frameGapY );
     }
   }
 
-  //アクション：ノート入力欄開閉
+  //アクション:ノート入力欄開閉
   void viewTextButtonAction() {
     if ( this.scrollPane.isVisible() ) {
       this.textPartsSetVisible       ( false );
@@ -175,13 +177,14 @@ class NoteUnit {
     }
   }
 
-  //アクション：保存したノートを開く
+  //アクション:保存したノートを開く
   void openNoteButtonAction() {
+
     String [] tempURL = loadStrings("../myurl.txt");
     launch(tempURL);
   }
 
-  //アクション：ノート入力欄にマークダウンのテンプレを記入する
+  //アクション:ノート入力欄にマークダウンのテンプレを記入する
   void templateButtonAction() {
     String template = "";
     template += "# \n";
@@ -193,7 +196,7 @@ class NoteUnit {
     setTemplateFlag = true;
   }
 
-  //アクション：ノート入力欄の削除する
+  //アクション:ノート入力欄の削除する
   void deleteButtonAction() {
     this.area.setText("");
 
